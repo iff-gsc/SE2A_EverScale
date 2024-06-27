@@ -1,4 +1,4 @@
-params_filename = 'se2a_funray_7';
+params_filename = 'se2a_funray';
 
 % params_str = fileread([pwd,'/../../../../../Desktop/SE2A_Funray/se2a_funray_2.params']);
 
