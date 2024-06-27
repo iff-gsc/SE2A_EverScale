@@ -38,7 +38,7 @@ airplane.ic.omega_Kb = [0; 0; 0];
 waypoints = [ 0 0 0; 0 -1 0; 1 -1 0; 1 0 0 ]'*250 + [0;-100;0];
 
 %% Compute LindiPlane parameters
-[lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,1], 'AgilityAtti', 1.3, 'AgilityPos', 1.0, 'ServoBoost', 0.6 );
+[lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,1], 'AgilityAtti', 1.3, 'AgilityPos', 1.3, 'ServoBoost', 0.6 );
 
 %% Open model
 open_model('AirplaneSimModel_LindiPlane');

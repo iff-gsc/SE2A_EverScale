@@ -6,6 +6,9 @@
 %   Copyright (C) 2022 TU Braunschweig, Institute of Flight Guidance
 % *************************************************************************
 
+addPathFunray();
+
+
 xyz_c_dist = [];
 m = [];
 xyz_dim = [];
