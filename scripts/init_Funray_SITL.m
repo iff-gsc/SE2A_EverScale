@@ -12,8 +12,11 @@ addPathFunray();
 clc_clear;
 
 % init airplane parameters
-airplane = conventionalAirplaneLoadParams( 'airplane_params_Funray' );
+airplane = conventionalAirplaneLoadParams( 'airplane_params_Se2aFunray' );
 airplane.ic.s_Kg(3) = -5;
+
+channel_idx = [1,2,7,8,9,10,11];
+channel_idx = 1:11;
 
 % environment parameters
 envir = envirLoadParams( 'envir_params_default', 'envir',0 );

@@ -13,7 +13,7 @@ clc_clear;
 
 %% Init simulation parameters
 % Airplane parameters
-airplane = conventionalAirplaneLoadParams( 'airplane_params_Funray' );
+airplane = conventionalAirplaneLoadParams( 'airplane_params_Se2aFunray' );
 
 % Environment parameters
 envir = envirLoadParams( 'envir_params_default', 'envir', 0 );
@@ -30,15 +30,17 @@ airplane.posRef.lon = -122.37822;
 
 % Inital conditons of rigid-body motion
 airplane.ic.q_bg = euler2Quat([0;0;-1.4]);
-airplane.ic.V_Kb = [15;0;0];
+airplane.ic.V_Kb = [26;0;0];
 airplane.ic.s_Kg = [10; 0; 0];
 airplane.ic.omega_Kb = [0; 0; 0];
 
 %% Define waypoints
-waypoints = [ 0 0 0; 0 -1 0; 1 -1 0; 1 0 0 ]'*250 + [0;-100;0];
+waypoints = [ 0 0 0; 0 -1 0; 1 -1 0; 1 0 0 ]'*200 + [0;-100;0];
+% waypoints = [ 0 0 0; 0 -1 0; 0 -2 0.3; 0 -3 0; 1 -1 0; 1 0 0 ]'*150 + [0;-100;0];
 
 %% Compute LindiPlane parameters
-[lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,1], 'AgilityAtti', 1.3, 'AgilityPos', 1.3, 'ServoBoost', 0.6 );
+[lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,1], ...
+    'AgilityAtti', 1.3, 'AgilityPos', 1.3, 'ServoBoost', 0.6, 'MlaUse', 1 );
 
 %% Open model
 open_model('AirplaneSimModel_LindiPlane');
