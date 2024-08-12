@@ -23,7 +23,7 @@ lindi_notune = structDouble2Single(lindi_notune);
 
 %% Init ArduPlane custom controller interface buses
 clearAllBuses();
-ardupilotCreateInputBuses();
+ardupilotCreateInputBusesSe2a();
 
 %% Open model
 open_model('ArduPlane_LindiPlane');

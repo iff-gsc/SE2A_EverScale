@@ -14,8 +14,8 @@ m = [];
 xyz_dim = [];
 
 % Battery (including cables)
-xyz_c_dist(1,:)    = [ -0.235, -0.01, 0.01 ];
-m(1)                = 0.350;
+xyz_c_dist(1,:)    = [ -0.24, -0.01, 0.01 ];
+m(1)                = 0.460;
 xyz_dim(1,:)        = [ 0.16, 0.04, 0.03 ];
 
 % ESC
@@ -45,7 +45,7 @@ xyz_dim(end+1,:)        = [ 1.08, 0.01, 0.01 ];
 
 % Fuselage foam
 xyz_c_dist(end+1,:)    = [ -0.55, 0, 0 ];
-m(end+1)                = 0.210;
+m(end+1)                = 0.210 + 0.03;
 xyz_dim(end+1,:)        = [ 1.1, 0.07, 0.08 ];
 
 % Fuselage cockpit window
@@ -120,6 +120,48 @@ xyz_c_dist(end+1,:)    = [ -0.445-0.041, 0.74, 0.029-0.07 ];
 m(end+1)                = servo_m;
 xyz_dim(end+1,:)        = servo_dim;
 
+imu_dim                 = [ 0.02, 0.025, 0.005 ];
+imu_m                   = 0.005 + 0.004;
+% IMU 1
+xyz_c_dist(end+1,:)     = [ -0.445, -0.9, -0.036 ];
+m(end+1)                = imu_m;
+xyz_dim(end+1,:)        = imu_dim;
+
+% IMU 2
+xyz_c_dist(end+1,:)     = [ -0.445+0.015, -0.7, -0.036 ];
+m(end+1)                = imu_m;
+xyz_dim(end+1,:)        = imu_dim;
+
+% IMU 3
+xyz_c_dist(end+1,:)     = [ -0.445+0.015, -0.5, -0.036 ];
+m(end+1)                = imu_m;
+xyz_dim(end+1,:)        = imu_dim;
+
+% IMU 4
+xyz_c_dist(end+1,:)     = [ -0.445+0.015, -0.3, -0.036 ];
+m(end+1)                = imu_m;
+xyz_dim(end+1,:)        = imu_dim;
+
+% IMU 5
+xyz_c_dist(end+1,:)     = [ -0.445+0.015, 0.3, -0.036 ];
+m(end+1)                = imu_m;
+xyz_dim(end+1,:)        = imu_dim;
+
+% IMU 6
+xyz_c_dist(end+1,:)     = [ -0.445+0.015, 0.5, -0.036 ];
+m(end+1)                = imu_m;
+xyz_dim(end+1,:)        = imu_dim;
+
+% IMU 7
+xyz_c_dist(end+1,:)     = [ -0.445+0.015, 0.7, -0.036 ];
+m(end+1)                = imu_m;
+xyz_dim(end+1,:)        = imu_dim;
+
+% IMU 8
+xyz_c_dist(end+1,:)     = [ -0.445, 0.9, -0.036 ];
+m(end+1)                = imu_m;
+xyz_dim(end+1,:)        = imu_dim;
+
 % Tail servos
 xyz_c_dist(end+1,:)    = [ -1.105, 0, -0.03 ];
 m(end+1)                = 0.06;
@@ -166,9 +208,9 @@ m(end+1)                = 0.028;
 xyz_dim(end+1,:)        = [ 0.03, 0.015, 0.03 ];
 
 % Trim mass
-xyz_c_dist(end+1,:)    = [ -0.155, 0, 0.01 ];
-m(end+1)                = 0.014;
-xyz_dim(end+1,:)        = [ 0.015, 0.015, 0.015 ];
+% xyz_c_dist(end+1,:)    = [ -0.155, 0, 0.01 ];
+% m(end+1)                = 0.014;
+% xyz_dim(end+1,:)        = [ 0.015, 0.015, 0.015 ];
 
 
 %  Compute the cg
