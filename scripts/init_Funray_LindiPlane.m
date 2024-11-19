@@ -28,9 +28,9 @@ airplane.posRef.alt = 50;
 airplane.posRef.lat = 37.6117;
 airplane.posRef.lon = -122.37822;
 
-% Inital conditons of rigid-body motion
+% Initial conditons of rigid-body motion
 airplane.ic.q_bg = euler2Quat([0;0;-1.4]);
-airplane.ic.V_Kb = [26;0;0];
+airplane.ic.V_Kb = [20;0;0];
 airplane.ic.s_Kg = [10; 0; 0];
 airplane.ic.omega_Kb = [0; 0; 0];
 
@@ -40,7 +40,7 @@ waypoints = [ 0 0 0; 0 -1 0; 1 -1 0; 1 0 0 ]'*200 + [0;-100;0];
 
 %% Compute LindiPlane parameters
 [lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,1], ...
-    'AgilityAtti', 1.3, 'AgilityPos', 1.3, 'ServoBoost', 0.6, 'MlaUse', 1 );
+    'AgilityAtti', 1.2, 'AgilityPos', 1.0, 'ServoBoost', 0.5, 'MlaUse', 1 );
 
 %% Open model
 open_model('AirplaneSimModel_LindiPlane');

@@ -21,6 +21,12 @@ aero.wingHtp = simpleWingCreate( 'wing_params_FunrayHtp', 'simpleWing_params_Fun
 %% vertical tailplane parameters
 aero.wingVtp = simpleWingCreate( 'wing_params_FunrayVtp', 'simpleWing_params_FunrayVtp' );
 
+%% downwash
+wing_main = wingCreate( 'wing_params_FunrayMainDistFlaps', 40 );
+wing_htp = wingCreate( 'wing_params_FunrayHtp', 20 );
+
+aero.downwash = wingGetDownwashDerivs( wing_main, wing_htp );
+
 %% configuration parameters
 % incidence angle of main wing, rad
 aero.config.wingMainIncidence = deg2rad(3);
