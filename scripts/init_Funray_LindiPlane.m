@@ -21,17 +21,15 @@ envir = envirLoadParams( 'envir_params_default', 'envir', 0 );
 % Joystick parameters
 jystck = joystickLoadParams('joystick_params_Xbox_360',2,-1);
 
-% Initial altitude
-airplane.posRef.alt = 50;
-
-% Initial location (San Francisco)
-airplane.posRef.lat = 37.6117;
-airplane.posRef.lon = -122.37822;
+% Peine-Eddesse
+airplane.posRef.lat = 52.402816;
+airplane.posRef.lon = 10.228787;
+airplane.posRef.alt = 72+20;
 
 % Initial conditons of rigid-body motion
 airplane.ic.q_bg = euler2Quat([0;0;-1.4]);
 airplane.ic.V_Kb = [20;0;0];
-airplane.ic.s_Kg = [10; 0; 0];
+airplane.ic.s_Kg = [0; 0; 0];
 airplane.ic.omega_Kb = [0; 0; 0];
 
 %% Define waypoints
