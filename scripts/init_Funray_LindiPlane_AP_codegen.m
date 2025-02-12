@@ -15,7 +15,7 @@ clc_clear;
 airplane = conventionalAirplaneLoadParams( 'airplane_params_Se2aFunray' );
 
 %% Compute LindiPlane parameters
-[lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,1], ...
+[lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,0.71], ...
     'AgilityAtti', 1.2, 'AgilityPos', 1.0, 'ServoBoost', 0.5, 'MlaUse', 0 );
 lindi.ceb.scale = 1.2;
 lindi = structDouble2Single(lindi);

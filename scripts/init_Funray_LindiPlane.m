@@ -37,7 +37,7 @@ waypoints = [ 0 0 0; 0 -1 0; 1 -1 0; 1 0 0 ]'*200 + [0;-100;0];
 % waypoints = [ 0 0 0; 0 -1 0; 0 -2 0.3; 0 -3 0; 1 -1 0; 1 0 0 ]'*150 + [0;-100;0];
 
 %% Compute LindiPlane parameters
-[lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,1], ...
+[lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,0.71], ...
     'AgilityAtti', 1.2, 'AgilityPos', 1.0, 'ServoBoost', 0.5, 'MlaUse', 1 );
 
 %% Open model
