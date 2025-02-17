@@ -18,6 +18,8 @@ airplane = conventionalAirplaneLoadParams( 'airplane_params_Se2aFunray' );
 [lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,0.71], ...
     'AgilityAtti', 1.2, 'AgilityPos', 1.0, 'ServoBoost', 0.5, 'MlaUse', 0 );
 lindi.ceb.scale = 1.2;
+lindi.gust.len = 20;
+lindi.gust.mag = -3;
 lindi = structDouble2Single(lindi);
 lindi_notune = structDouble2Single(lindi_notune);
 
