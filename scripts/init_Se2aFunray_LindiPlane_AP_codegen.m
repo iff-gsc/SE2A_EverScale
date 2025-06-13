@@ -12,7 +12,7 @@ addPathFunray();
 clc_clear;
 
 %% Init airplane parameters
-airplane = conventionalAirplaneLoadParams( 'airplane_params_Funray' );
+airplane = conventionalAirplaneLoadParams( 'airplane_params_Se2aFunray' );
 
 %% Compute LindiPlane parameters
 [lindi,lindi_notune] = lindiPlaneAutoCreate( airplane, 'SensFilt', [50,0.71], ...
@@ -20,7 +20,8 @@ airplane = conventionalAirplaneLoadParams( 'airplane_params_Funray' );
 lindi.ceb.scale = 1.2;
 lindi.gust.len = 20;
 lindi.gust.mag = -3;
-lindi.flex.m = zeros(1,4);
+lindi.flex.m = [1,2,3,3];
+lindi.flex.m = 0.44/sum(lindi.flex.m) * lindi.flex.m;
 
 lindi = structDouble2Single(lindi);
 lindi_notune = structDouble2Single(lindi_notune);

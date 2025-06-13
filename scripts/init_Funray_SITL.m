@@ -13,9 +13,13 @@ clc_clear;
 
 % init airplane parameters
 airplane = conventionalAirplaneLoadParams( 'airplane_params_Se2aFunray' );
-airplane.ic.s_Kg(3) = -5;
 
-channel_idx = [1,2,7,8,9,10,11];
+% Peine-Eddesse
+airplane.posRef.lat = 52.402816;
+airplane.posRef.lon = 10.228787;
+airplane.posRef.alt = 72;
+
+channel_idx = 1:7;
 channel_idx = 1:11;
 
 % environment parameters

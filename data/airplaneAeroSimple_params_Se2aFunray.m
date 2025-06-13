@@ -13,13 +13,13 @@ fuse.V = 0.0025;
 aero.fuse = simpleFuselageCreate( 'simpleFuselage_params_Funray', fuse.V );
 
 %% main wing parameters
-aero.wingMain = simpleWingCreate( 'wing_params_FunrayMainDistFlaps', 'simpleWing_params_FunrayMainWing' );
+aero.wingMain = simpleWingCreate( 'wing_params_FunrayMainDistFlaps', 'simpleWing_params_FunrayMainWing', 'Unsteady', 1 );
 
 %%  horizontal tailplane parameters
-aero.wingHtp = simpleWingCreate( 'wing_params_FunrayHtp', 'simpleWing_params_FunrayHtp' );
+aero.wingHtp = simpleWingCreate( 'wing_params_FunrayHtp', 'simpleWing_params_FunrayHtp', 'Unsteady', 1 );
 
 %% vertical tailplane parameters
-aero.wingVtp = simpleWingCreate( 'wing_params_FunrayVtp', 'simpleWing_params_FunrayVtp' );
+aero.wingVtp = simpleWingCreate( 'wing_params_FunrayVtp', 'simpleWing_params_FunrayVtp', 'Unsteady', 1 );
 
 %% downwash
 wing_main = wingCreate( 'wing_params_FunrayMainDistFlaps', 40 );
