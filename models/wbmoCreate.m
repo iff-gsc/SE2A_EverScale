@@ -79,7 +79,7 @@ end
 % observer if no strain sensors are available
 WBMO.PhiZ = structure_red.modal.T(3:6:end,6+WBMO_notune.mode_idx_use);
 % eta (modal coordinates) to p (roll rate)
-PhiRoll = -structure_red.modal.T(5:6:end,6+WBMO_notune.mode_idx_use);
+PhiRoll = -structure_red.modal.T(4:6:end,6+WBMO_notune.mode_idx_use);
 
 % Delta deflections with respect to wing center
 num_nodes = size(structure_red.xyz,2);

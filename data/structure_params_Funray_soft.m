@@ -51,7 +51,8 @@ R = [0.003,0.004,0.005,0.006,0.0064,0.0083]/2;
 r = [0.002,0.003,0.004,0.005,0.005,0.007]/2;
 A = pi*(R.^2-r.^2);
 Iy = pi/4*(R.^4-r.^4);
-Iz = Iy;
+% Make forward/backward bending stiffer than upward/downward
+Iz = 10*Iy;
 J = pi/2*(R.^4-r.^4);
 % node 1 idx, node 2 idx, A, Iy, Iz, E, J, G
 param.stiff = [ ...
