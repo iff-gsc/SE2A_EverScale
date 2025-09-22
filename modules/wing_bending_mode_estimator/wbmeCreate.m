@@ -1,19 +1,25 @@
-function [WBMO,WBMO_notune] = wbmoCreate( structure_red, varargin )
-% wbmoCreate creates the parameters of the wing bending mode observer
+function [WBME,WBME_notune] = wbmeCreate( structure_red, y_IMUs, y_strains, z_strains, varargin )
+% wbmeCreate creates the parameters of the wing bending mode estimator
 % 
 % Syntax:
-%   [WBMO,WBMO_notune] = wbmoCreate( structure_red )
-%   [WBMO,WBMO_notune] = wbmoCreate( structure_red, Name, Value )
+%   [WBME,WBME_notune] = wbmeCreate( structure_red, y_IMUs, y_strains, z_strains )
+%   [WBME,WBME_notune] = wbmeCreate( structure_red, y_IMUs, y_strains, z_strains, Name, Value )
 % 
 % Inputs:
 %   structure_red 	Modal structural dynamics model parameters struct, see
-%                   structureCreate
+%                   structureCreate and structureGetReduced
+%   y_IMUs          y positions of the IMUs (1xn array for N IMUs), in m
+%   y_strains       y positions of the strain sensors (1xm array for M
+%                   strain sensors); one (artificial) strain sensor should
+%                   be located at y=0, in m
+%   z_strain        Distances from the neutral axis to the surface
+%                   strain-sensing stations (1xm array), in m
 %   Name            Name of name-value arguments:
 %                       - 'ModeIdxUse': Vector of all used mode numbers for
 %                           mode shape inversion (important for estimation
 %                           the mode acceleration), for example [1] or
 %                           [1,5], default: [1]
-%                       - 'ModeIdxUse': Vector of indices which mode of
+%                       - 'ModeIdxObs': Vector of indices which mode of
 %                           ModeIdxUse is to be observed, for example [1]
 %                           or [1,2] (non-tunable), default: [1]
 %                       - 'SampleTime': Sample time, s, default: 1/400
@@ -24,9 +30,9 @@ function [WBMO,WBMO_notune] = wbmoCreate( structure_red, varargin )
 %   Value           value of Name-Value Arguments (see input Name)
 % 
 % Outputs:
-%   WBMO            Wing bending mode observer parameters struct (tunable
+%   WBME            Wing bending mode estimator parameters struct (tunable
 %                   part)
-%   WBMO            Wing bending mode observer parameters struct
+%   WBME            Wing bending mode estimator parameters struct
 %                   (non-tunable part)
 % 
 % See also:
@@ -41,35 +47,35 @@ function [WBMO,WBMO_notune] = wbmoCreate( structure_red, varargin )
 
 % Vector of all used mode numbers for mode shape inversion (important for
 % estimation of eta_dd)
-WBMO_notune.mode_idx_use = 1;
+WBME_notune.mode_idx_use = 1;
 % Vector of indices which mode of mode_idx_use is to be observed
-WBMO_notune.mode_idx_obs = 1;
+WBME_notune.mode_idx_obs = 1;
 % Observer sample time, s (non-tunable)
-WBMO_notune.sample_time = 1/400;
+WBME_notune.sample_time = 1/400;
 
 % Observer gains
 % Circular frequency, rad/s
-WBMO.omega = 10.0;
+WBME.omega = 10.0;
 % Damping ratio
-WBMO.d = 0.7;
+WBME.d = 0.7;
 
 % High-pass filter time constant for gyro integration (if no strain sensors
 % are available)
-WBMO.T = 1.0;
+WBME.T = 1.0;
 
 % Parse and assign optional name-value arguments
 if ~isempty(varargin)
     for i = 1:length(varargin)
         if strcmp(varargin{i},'ModeIdxUse')
-            WBMO_notune.mode_idx_use = varargin{i+1};
+            WBME_notune.mode_idx_use = varargin{i+1};
         elseif strcmp(varargin{i},'ModeIdxObs')
-            WBMO_notune.mode_idx_obs = varargin{i+1};
+            WBME_notune.mode_idx_obs = varargin{i+1};
         elseif strcmp(varargin{i},'SampleTime')
-            WBMO_notune.sample_time = varargin{i+1};
+            WBME_notune.sample_time = varargin{i+1};
         elseif strcmp(varargin{i},'omega')
-            WBMO.omega = varargin{i+1};
+            WBME.omega = varargin{i+1};
         elseif strcmp(varargin{i},'d')
-            WBMO.d = varargin{i+1};
+            WBME.d = varargin{i+1};
         end
     end
 end
@@ -77,27 +83,31 @@ end
 
 % eta (modal coordinates) to z (vertical deflection) - only needed by the
 % observer if no strain sensors are available
-WBMO.PhiZ = structure_red.modal.T(3:6:end,6+WBMO_notune.mode_idx_use);
+WBME.PhiZ = interp1(structure_red.xyz(2,:),structure_red.modal.T(3:6:end,6+WBME_notune.mode_idx_use),y_IMUs(:),'linear','extrap');
 % eta (modal coordinates) to p (roll rate)
-PhiRoll = -structure_red.modal.T(4:6:end,6+WBMO_notune.mode_idx_use);
+PhiRoll = -interp1(structure_red.xyz(2,:),structure_red.modal.T(4:6:end,6+WBME_notune.mode_idx_use),y_IMUs(:),'linear','extrap');
 
 % Delta deflections with respect to wing center
-num_nodes = size(structure_red.xyz,2);
-center_node_idx = num_nodes/2+0.5;
-WBMO.PhiZ = WBMO.PhiZ - WBMO.PhiZ(center_node_idx,:);
-WBMO.PhiZ(center_node_idx,:) = [];
-WBMO.pinvPhiZ = pinv(WBMO.PhiZ);
-PhiRoll = PhiRoll - PhiRoll(center_node_idx,:);
-PhiRoll(center_node_idx,:) = [];
-WBMO.pinvPhiP = pinv(PhiRoll);
+center_IMU_idx = length(y_IMUs)/2+0.5;
+WBME.PhiZ = WBME.PhiZ - WBME.PhiZ(center_IMU_idx,:);
+WBME.PhiZ(center_IMU_idx,:) = [];
+WBME.pinvPhiZ = pinv(WBME.PhiZ);
+PhiRoll = PhiRoll - PhiRoll(center_IMU_idx,:);
+PhiRoll(center_IMU_idx,:) = [];
+WBME.pinvPhiP = pinv(PhiRoll);
 
-% Number of strain sensors (to do: dummy value)
-num_strain_sensors = 12;
-% Matrix for mapping strains -> z (to do: currently only dummy values so
-% that wbmo.Strain2z*pinv(wbmo.Strain2z) = E)
-WBMO.Strain2z = rand(num_nodes-1,num_strain_sensors);
+% Number of strain sensors
+num_strain_sensors = length(y_strains);
+% Matrix for mapping strains -> z
+WBME.Strain2z = zeros(length(y_IMUs),num_strain_sensors);
+for i = 1:length(y_strains)
+    strains = zeros(1,num_strain_sensors);
+    strains(i) = 0.001;
+    WBME.Strain2z(:,i) = 1/0.001 * ...
+        strain2displacement( y_strains, z_strains, strains, y_IMUs );
+end
 % Pseudo-inverse is needed for conversion of gyros to strains (if no strain
 % sensors are available)
-WBMO.pinvS2z = pinv(WBMO.Strain2z);
+WBME.pinvS2z = pinv(WBME.Strain2z);
 
 end

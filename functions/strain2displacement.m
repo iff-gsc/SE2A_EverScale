@@ -50,10 +50,17 @@ end
 
 curvature = strain ./ z_strain;
 
+center_node_idx = find( y_strain == 0 );
+if isempty(center_node_idx)
+    error('Please define a strain sensor at y=0.')
+end
+
 % [1], Eq. (6):
 slope_tmp = cumtrapz( y_strain, curvature );
+slope_tmp  = slope_tmp - slope_tmp(center_node_idx);
 % [1], Eeq. (9):
 Delta_z_tmp = cumtrapz( y_strain, sin(slope_tmp) );
+Delta_z_tmp = Delta_z_tmp - Delta_z_tmp(center_node_idx);
 
 % Interpolate/extrapolate if requested
 if is_eval_different
