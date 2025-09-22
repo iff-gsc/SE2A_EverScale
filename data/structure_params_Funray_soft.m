@@ -25,8 +25,9 @@ param.xyz = [ ...
 
 m = [0.067/3,0.067*2/3,0.067*4/3,0.067*4/3,0.067*4/3,0.067,1.45];
 
+delta_y = diff( [ -1, param.xyz(2,1:end/2-0.5) + diff(param.xyz(2,1:end/2+0.5))/2, 0 ] );
 Ixx = 1/12*m*0.05^2;
-Iyy = 1/12*m*0.167^2;
+Iyy = 1/12*m.*delta_y.^2;
 Izz = Iyy;
 % m, x, y, z, Ixx, Iyy, Izz, Ixy, Ixz, Iyz
 param.mass = [ ...

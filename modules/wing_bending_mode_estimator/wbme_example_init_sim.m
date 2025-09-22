@@ -61,10 +61,9 @@ end
 Phi_s_sim = pinv(S2z)*Phi_az_sim;
 
 % Load/create WBME parameters structs
-% [1,4,9] are the 1st, 2nd, and 3rd symmetric bending mode
+% [1,4,8] are the 1st, 2nd, and 3rd symmetric bending mode
 [WBME,WBME_notune] = wbmeCreate( structure_red, y_IMUs, y_strains, z_strains, ...
-    'ModeIdxUse', [1,4,9], 'ModeIdxObs', 1 );
-
+    'ModeIdxUse', [1,4,8], 'ModeIdxObs', 1 );
 
 
 %% Simulink model
