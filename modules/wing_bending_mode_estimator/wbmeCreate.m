@@ -96,6 +96,16 @@ PhiRoll = PhiRoll - PhiRoll(center_IMU_idx,:);
 PhiRoll(center_IMU_idx,:) = [];
 WBME.pinvPhiP = pinv(PhiRoll);
 
+% Matrix for mapping gyros -> z_dt
+num_IMUs = length(y_IMUs);
+WBME.gyro2zd = zeros(num_IMUs,num_IMUs);
+for i = 1:num_IMUs
+    gyros = zeros(1,num_IMUs);
+    gyros(i) = 0.001;
+    WBME.gyro2zd(:,i) = 1/0.001 * ...
+        gyro2velocity( y_IMUs, gyros );
+end
+
 % Number of strain sensors
 num_strain_sensors = length(y_strains);
 % Matrix for mapping strains -> z
