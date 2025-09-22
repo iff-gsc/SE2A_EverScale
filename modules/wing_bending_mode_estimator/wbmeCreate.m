@@ -87,6 +87,13 @@ WBME.PhiZ = interp1(structure_red.xyz(2,:),structure_red.modal.T(3:6:end,6+WBME_
 % eta (modal coordinates) to p (roll rate)
 PhiRoll = -interp1(structure_red.xyz(2,:),structure_red.modal.T(4:6:end,6+WBME_notune.mode_idx_use),y_IMUs(:),'linear','extrap');
 
+% Scaling of eta
+% eta = 1 means that the outer gyro is rotated by 1 rad
+WBME.eta_scale = 1 / abs( PhiRoll(1,1) );
+WBME.eta_scale = 1;
+WBME.PhiZ = WBME.eta_scale * WBME.PhiZ;
+PhiRoll = WBME.eta_scale * PhiRoll;
+
 % Delta deflections with respect to wing center
 center_IMU_idx = length(y_IMUs)/2+0.5;
 WBME.PhiZ = WBME.PhiZ - WBME.PhiZ(center_IMU_idx,:);
